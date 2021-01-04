@@ -23,6 +23,7 @@ $(document).ready(function(){
    
     var google_api_key = "AIzaSyBkatIeGCQxmAuC_YKY3aKy4Vd-ug5Z04E";
     var url = "https://www.googleapis.com/youtube/v3/search";
+    var searchresultNumber = 0;
 
     $("#songSearchButton").on("click", function(e) {
             e.preventDefault();
@@ -40,15 +41,15 @@ $(document).ready(function(){
             }
             console.log(parameter);
 
-            getSong()
+            getSong(searchresultNumber)
 
-            function getSong() {
+            function getSong(searchresultNumber) {
                 $.getJSON(url, parameter, function(data){
                     console.log(data);
-                    var videoName = data.items[0].snippet.title
-                    var videoThumbnail = data.items[0].snippet.thumbnails.high.url
-                    var videoDescription = data.items[0].snippet.description
-                    var videoLinkID = data.items[0].id.videoId
+                    var videoName = data.items[searchresultNumber].snippet.title
+                    var videoThumbnail = data.items[searchresultNumber0].snippet.thumbnails.high.url
+                    var videoDescription = data.items[searchresultNumber].snippet.description
+                    var videoLinkID = data.items[searchresultNumber].id.videoId
                     searchResultVid(videoName, videoThumbnail, videoDescription, videoLinkID);
                 })
             }
@@ -63,12 +64,22 @@ $(document).ready(function(){
                         <h1>${videoName}</h1>
                     </div>
                     <div class="row">
-                        <p>${videoDescription}</p>
+                        <h2>Channel: ${videoChannel}<h2>
+                    </div>
+                    <div class="row">
+                      <h2>Published: ${videoPublishedDate}<h2>
                     </div>
                     <div class="row mt-auto">
-                        <a href="https://www.youtube.com/watch?v=${videoLinkID}"><button class="btn btn-primary btn-lg" id="songSearchButton">Search</button></a>
-                        <button class="btn btn-primary btn-lg" id="returnButton">Return</button>
+                      <div class="col-md-3">
+                          <a href="https://www.youtube.com/watch?v=${videoLinkID}"><button class="btn btn-primary btn-lg" id="songSearchButton">Search</button></a>
+                      </div>
+                      <div class="col-md-3">
+                          <button class="btn btn-primary btn-lg" id="returnButton">Return</button>
+                      </div>
+                      <div class="col-md-3">
+                        <button class="btn btn-primary btn-lg" id="nextButton">Next</button>
                     </div>
+                  </div>
                 </div>
                 `)
             }
@@ -79,8 +90,13 @@ $(document).ready(function(){
         })
 
     $("#returnButton").on("click", function(e) {
+        e.preventDefault();
         $("#searchResultDisplay").css("display", "none");
         $("#searchbar").css("display", "block");
+    })
+
+    $("$nextButton").on("click", function(e) {
+        e.preventDefault();
     })
 })
 
