@@ -1,0 +1,26 @@
+html, body{
+    height: 100vh;
+}
+
+.space{
+    margin: 20px 0px;
+}
+
+.resultdesign{
+    padding: 10px;
+    border-style: solid;
+    border-width: 3px;
+    border-color: white;
+}
+
+.videoimg{
+    padding-right: 30px;
+}
+
+.videoimg img{
+    float: right;
+}
+
+#gradient-background{
+    background-image: linear-gradient(to right, rgb(119, 194, 255) , rgb(255, 200, 48));
+}
