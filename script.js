@@ -25,6 +25,7 @@ $(document).ready(function(){
     var url = "https://www.googleapis.com/youtube/v3/search";
     var songName = "";
     let searchResultNumber = 0;
+    let youtubeJson;
     var parameter = {
         part: 'snippet',
         key: google_api_key,
@@ -40,6 +41,7 @@ $(document).ready(function(){
         parameter = getSearchValue(parameter);
         console.log($("#songSearch").val());
         console.log(parameter);
+        let searchResultNumber = 0
         getSong(searchResultNumber, parameter);
     })
 
@@ -49,20 +51,35 @@ $(document).ready(function(){
         $("#searchbar").css("display", "block");
     })
 
-    
+    //Buttons to cycle back and forth of songs
     $(document).on("click", "#nextButton", function(e) {
         e.preventDefault();
         if (typeof searchResultNumber === "undefined"){
             searchResultNumber = 0;
         }
-        console.log(parameter)
-        console.log(searchResultNumber);
+        console.log("Next Song")
+        console.log("Before added number:" + searchResultNumber);
         searchResultNumber = searchResultNumber + 1;
-        if (searchResultNumber > 20){
+        if (searchResultNumber > 19){
             searchResultNumber = 0;
         }
         console.log(searchResultNumber);
-        getSong(searchResultNumber, parameter);
+        getSongFromLS(searchResultNumber);
+    })
+
+    $(document).on("click", "#backButton", function(e) {
+        e.preventDefault();
+        console.log("last Song")
+        if (typeof searchResultNumber === "undefined"){
+            searchResultNumber = 0;
+        }
+        console.log("Before substracted number:" + searchResultNumber);
+        searchResultNumber = searchResultNumber - 1;
+        if (searchResultNumber < 0){
+            searchResultNumber = 19;
+        }
+        console.log(searchResultNumber);
+        getSongFromLS(searchResultNumber);
     })
 
     // This function is to set the parameter
@@ -84,20 +101,14 @@ $(document).ready(function(){
         console.log("Running getSong");
         console.log(searchResultNumber);
 
-        // fetch(url, {
-        //     method: 'get',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         Authentication: `Bearer ${google_api_key}`
-        //     }
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         console.log('Success:', data);
-        //     })
-        // })
-
+        // save data to local storage
         $.getJSON(url, parameter, function(data){
             console.log(data)
+            let youtubeJson = JSON.stringify(data);
+            localStorage.setItem("youtubeJsonData", youtubeJson);
+            // for (i = 0; i< 2; i++){
+
+            // }
             var videoName = data.items[searchResultNumber].snippet.title;
             var videoThumbnail = data.items[searchResultNumber].snippet.thumbnails.high.url;
             var videoChannel = data.items[searchResultNumber].snippet.channelTitle;
@@ -125,18 +136,36 @@ $(document).ready(function(){
               <h2>Published: ${videoPublishedDate}<h2>
             </div>
             <div class="row mt-auto">
-              <div class="col-md-4">
+              <div class="col-md-3">
                   <a href="https://www.youtube.com/watch?v=${videoLinkID}" target="_blank"><button class="btn btn-primary btn-lg" id="songSearchButton">Youtube</button></a>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-3">
                   <button class="btn btn-primary btn-lg" id="returnButton">Return</button>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <button class="btn btn-primary btn-lg" id="nextButton">Next</button>
+              </div>
+              <div class="col-md-3">
+                <button class="btn btn-primary btn-lg" id="backButton">Back</button>
               </div>
           </div>
         </div>
         `)
+    }
+
+    function getSongFromLS(searchResultNumber){
+        var data = JSON.parse(localStorage.getItem("youtubeJsonData"));
+        var videoName = data.items[searchResultNumber].snippet.title;
+        var videoThumbnail = data.items[searchResultNumber].snippet.thumbnails.high.url;
+        var videoChannel = data.items[searchResultNumber].snippet.channelTitle;
+        var videoLinkID = data.items[searchResultNumber].id.videoId;
+        var videoPublishedDate = data.items[searchResultNumber].snippet.publishedAt;
+        // var videoName = localStorage.getItem(`data.items${searchResultNumber}.snippet.title`);
+        // var videoThumbnail = localStorage.getItem(`data.items${searchResultNumber}.snippet.thumbnails.high.url`);
+        // var videoChannel = localStorage.getItem(`data.items${searchResultNumber}.snippet.channelTitle`);
+        // var videoLinkID = localStorage.getItem(`data.items${searchResultNumber}.id.videoId`);
+        // var videoPublishedDate = localStorage.getItem(`data.items${searchResultNumber}.snippet.publishedAt`);
+        searchResultVid(videoName, videoThumbnail, videoChannel, videoLinkID, videoPublishedDate);
     }
 })
 
