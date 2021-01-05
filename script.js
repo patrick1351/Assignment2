@@ -24,7 +24,7 @@ $(document).ready(function(){
     var google_api_key = "AIzaSyBkatIeGCQxmAuC_YKY3aKy4Vd-ug5Z04E";
     var url = "https://www.googleapis.com/youtube/v3/search";
     var songName = "";
-    var searchresultNumber = 0;
+    let searchResultNumber = 0;
     var parameter = {
         part: 'snippet',
         key: google_api_key,
@@ -40,7 +40,7 @@ $(document).ready(function(){
         parameter = getSearchValue(parameter);
         console.log($("#songSearch").val());
         console.log(parameter);
-        getSong(searchresultNumber, parameter);
+        getSong(searchResultNumber, parameter);
     })
 
     $(document).on("click", "#returnButton", function(e) {
@@ -49,16 +49,20 @@ $(document).ready(function(){
         $("#searchbar").css("display", "block");
     })
 
-    $(document).on("click", "#nextButton", function(e, searchresultNumber) {
+    
+    $(document).on("click", "#nextButton", function(e) {
         e.preventDefault();
-        console.log(parameter)
-        console.log(searchresultNumber);
-        searchresultNumber = searchresultNumber + 1;
-        if (searchresultNumber > 20){
-            var searchresultNumber = 0;
+        if (typeof searchResultNumber === "undefined"){
+            searchResultNumber = 0;
         }
-        console.log(searchresultNumber);
-        getSong(searchresultNumber, parameter);
+        console.log(parameter)
+        console.log(searchResultNumber);
+        searchResultNumber = searchResultNumber + 1;
+        if (searchResultNumber > 20){
+            searchResultNumber = 0;
+        }
+        console.log(searchResultNumber);
+        getSong(searchResultNumber, parameter);
     })
 
     // This function is to set the parameter
@@ -76,9 +80,9 @@ $(document).ready(function(){
     }
 
     //This function is to get the json file from youtube base on parameter
-    function getSong(searchresultNumber, parameter) {
+    function getSong(searchResultNumber, parameter) {
         console.log("Running getSong");
-        console.log(searchresultNumber);
+        console.log(searchResultNumber);
 
         // fetch(url, {
         //     method: 'get',
@@ -94,11 +98,11 @@ $(document).ready(function(){
 
         $.getJSON(url, parameter, function(data){
             console.log(data)
-            var videoName = data.items[searchresultNumber].snippet.title;
-            var videoThumbnail = data.items[searchresultNumber].snippet.thumbnails.high.url;
-            var videoChannel = data.items[searchresultNumber].snippet.channelTitle;
-            var videoLinkID = data.items[searchresultNumber].id.videoId;
-            var videoPublishedDate = data.items[searchresultNumber].snippet.publishedAt;
+            var videoName = data.items[searchResultNumber].snippet.title;
+            var videoThumbnail = data.items[searchResultNumber].snippet.thumbnails.high.url;
+            var videoChannel = data.items[searchResultNumber].snippet.channelTitle;
+            var videoLinkID = data.items[searchResultNumber].id.videoId;
+            var videoPublishedDate = data.items[searchResultNumber].snippet.publishedAt;
             searchResultVid(videoName, videoThumbnail, videoChannel, videoLinkID, videoPublishedDate);
         })
     }
@@ -121,13 +125,13 @@ $(document).ready(function(){
               <h2>Published: ${videoPublishedDate}<h2>
             </div>
             <div class="row mt-auto">
-              <div class="col-md-3">
-                  <a href="https://www.youtube.com/watch?v=${videoLinkID}"><button class="btn btn-primary btn-lg" id="songSearchButton">Search</button></a>
+              <div class="col-md-4">
+                  <a href="https://www.youtube.com/watch?v=${videoLinkID}" target="_blank"><button class="btn btn-primary btn-lg" id="songSearchButton">Youtube</button></a>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-4">
                   <button class="btn btn-primary btn-lg" id="returnButton">Return</button>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <button class="btn btn-primary btn-lg" id="nextButton">Next</button>
               </div>
           </div>
