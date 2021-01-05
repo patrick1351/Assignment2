@@ -61,6 +61,7 @@ $(document).ready(function(){
         getSong(searchresultNumber, parameter);
     })
 
+    // This function is to set the parameter
     function getSearchValue(parameter){
         var songName = $("#songSearch").val();
         var parameter = {
@@ -74,6 +75,7 @@ $(document).ready(function(){
         return parameter
     }
 
+    //This function is to get the json file from youtube base on parameter
     function getSong(searchresultNumber, parameter) {
         console.log("Running getSong");
         console.log(searchresultNumber);
@@ -101,6 +103,8 @@ $(document).ready(function(){
         })
     }
 
+    // This sets the display for the search result IE when user clicks on the search button, this function change the display to be one 
+    // the search result
     function searchResultVid(videoName, videoThumbnail, videoChannel, videoLinkID, videoPublishedDate) {
         $("#searchbar").css("display", "none");
         $("#searchResultDisplay").css("display", "block");
