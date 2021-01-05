@@ -23,25 +23,24 @@ $(document).ready(function(){
    
     var google_api_key = "AIzaSyBkatIeGCQxmAuC_YKY3aKy4Vd-ug5Z04E";
     var url = "https://www.googleapis.com/youtube/v3/search";
+    var songName = "";
     var searchresultNumber = 0;
-    
+    var parameter = {
+        part: 'snippet',
+        key: google_api_key,
+        maxResults: 20,
+        q: songName,
+        videoCategoryId: 10,
+        type: "video",
+    }
 
     $("#songSearchButton").on("click", function(e) {
-            e.preventDefault();
-            rollBg();
-            var songName = $("#songSearch").val();
-            var parameter = {
-                part: 'snippet',
-                key: google_api_key,
-                maxResults: 20,
-                q: songName,
-                videoCategoryId: 10,
-                type: "video",
-                // type: video,
-            }
-            console.log($("#songSearch").val());
-            console.log(parameter);
-            getSong(searchresultNumber, parameter)
+        e.preventDefault();
+        rollBg();
+        parameter = getSearchValue(parameter);
+        console.log($("#songSearch").val());
+        console.log(parameter);
+        getSong(searchresultNumber, parameter);
     })
 
     $(document).on("click", "#returnButton", function(e) {
@@ -50,20 +49,47 @@ $(document).ready(function(){
         $("#searchbar").css("display", "block");
     })
 
-    $(document).on("click", "#nextButton", function(e) {
+    $(document).on("click", "#nextButton", function(e, searchresultNumber) {
         e.preventDefault();
-        console.log(searchresultNumber)
+        console.log(parameter)
+        console.log(searchresultNumber);
         searchresultNumber = searchresultNumber + 1;
         if (searchresultNumber > 20){
             var searchresultNumber = 0;
         }
-        console.log(searchresultNumber)
-        getSong(searchresultNumber, parameter)
+        console.log(searchresultNumber);
+        getSong(searchresultNumber, parameter);
     })
 
+    function getSearchValue(parameter){
+        var songName = $("#songSearch").val();
+        var parameter = {
+            part: 'snippet',
+            key: google_api_key,
+            maxResults: 20,
+            q: songName,
+            videoCategoryId: 10,
+            type: "video",
+        }
+        return parameter
+    }
+
     function getSong(searchresultNumber, parameter) {
-        console.log("Running getSong")
-        console.log(searchresultNumber)
+        console.log("Running getSong");
+        console.log(searchresultNumber);
+
+        // fetch(url, {
+        //     method: 'get',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         Authentication: `Bearer ${google_api_key}`
+        //     }
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         console.log('Success:', data);
+        //     })
+        // })
+
         $.getJSON(url, parameter, function(data){
             console.log(data)
             var videoName = data.items[searchresultNumber].snippet.title;
