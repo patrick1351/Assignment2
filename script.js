@@ -64,6 +64,7 @@ $(document).ready(function(){
             searchResultNumber = 0;
         }
         console.log(searchResultNumber);
+        closeVideo()
         getSongFromLS(searchResultNumber);
     })
 
@@ -79,7 +80,16 @@ $(document).ready(function(){
             searchResultNumber = 19;
         }
         console.log(searchResultNumber);
+        closeVideo()
         getSongFromLS(searchResultNumber);
+    })
+
+    $(document).on("click", "#playVideo", function(e){
+        playVideo(searchResultNumber)
+    })
+
+    $(document).on("click", "#closeVideo", function(e){
+        closeVideo()
     })
 
     // This function is to set the parameter
@@ -106,16 +116,44 @@ $(document).ready(function(){
             console.log(data)
             let youtubeJson = JSON.stringify(data);
             localStorage.setItem("youtubeJsonData", youtubeJson);
-            // for (i = 0; i< 2; i++){
-
-            // }
             var videoName = data.items[searchResultNumber].snippet.title;
             var videoThumbnail = data.items[searchResultNumber].snippet.thumbnails.high.url;
             var videoChannel = data.items[searchResultNumber].snippet.channelTitle;
-            var videoLinkID = data.items[searchResultNumber].id.videoId;
+            let videoLinkID = data.items[searchResultNumber].id.videoId;
             var videoPublishedDate = data.items[searchResultNumber].snippet.publishedAt;
             searchResultVid(videoName, videoThumbnail, videoChannel, videoLinkID, videoPublishedDate);
         })
+    }
+
+    function closeVideo(){
+        $("#searchResultDisplay").css("display", "block");
+        $("#videoPlayer").css("display", "none");
+    }
+
+    function playVideo(searchResultNumber){
+        var data = JSON.parse(localStorage.getItem("youtubeJsonData"));
+        let videoLinkID = data.items[searchResultNumber].id.videoId;
+        $("#searchResultDisplay").css("display", "none");
+        $("#videoPlayer").css("display", "block");
+        $("#videoPlayer").html(`
+        <div  class = "row">
+        <iframe width="560" height="670" src="https://www.youtube.com/embed/${videoLinkID}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div  class = "row">
+            <div class="col-md-3">
+                <button class="btn btn-primary btn-lg" id="returnButton">Return</button>
+            </div>
+            <div class="col-md-2">
+            <button class="btn btn-primary btn-lg" id="nextButton">Next</button>
+            </div>
+            <div class="col-md-2">
+            <button class="btn btn-primary btn-lg" id="backButton">Back</button>
+            </div>
+            <div class="col-md-3">
+            <button class="btn btn-primary btn-lg" id="closeVideo">Close video</button>
+            </div>
+        </div>
+        `)
     }
 
     // This sets the display for the search result IE when user clicks on the search button, this function change the display to be one 
@@ -139,26 +177,31 @@ $(document).ready(function(){
               <div class="col-md-3">
                   <a href="https://www.youtube.com/watch?v=${videoLinkID}" target="_blank"><button class="btn btn-primary btn-lg" id="songSearchButton">Youtube</button></a>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-2">
                   <button class="btn btn-primary btn-lg" id="returnButton">Return</button>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-2">
                 <button class="btn btn-primary btn-lg" id="nextButton">Next</button>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-2">
                 <button class="btn btn-primary btn-lg" id="backButton">Back</button>
+              </div>
+              <div class="col-md-3">
+                <button class="btn btn-primary btn-lg" id="playVideo">Play video</button>
               </div>
           </div>
         </div>
         `)
     }
 
+
+    // This function is to retrieve the json saved on the local storage 
     function getSongFromLS(searchResultNumber){
         var data = JSON.parse(localStorage.getItem("youtubeJsonData"));
         var videoName = data.items[searchResultNumber].snippet.title;
         var videoThumbnail = data.items[searchResultNumber].snippet.thumbnails.high.url;
         var videoChannel = data.items[searchResultNumber].snippet.channelTitle;
-        var videoLinkID = data.items[searchResultNumber].id.videoId;
+        let videoLinkID = data.items[searchResultNumber].id.videoId;
         var videoPublishedDate = data.items[searchResultNumber].snippet.publishedAt;
         // var videoName = localStorage.getItem(`data.items${searchResultNumber}.snippet.title`);
         // var videoThumbnail = localStorage.getItem(`data.items${searchResultNumber}.snippet.thumbnails.high.url`);
