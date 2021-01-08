@@ -1,18 +1,22 @@
 $(document).ready(function(){
 
     function newGradient() {
+        //Math.random()*255
         var c1 = {
               r: Math.floor(255),
-              g: Math.floor(35+Math.random()*220),
-              b: Math.floor(Math.random()*255)
+              g: Math.floor(50+Math.random()*135),
+              b: Math.floor(1)
             };
             var c2 = {
               r: Math.floor(255),
-              g: Math.floor(35+Math.random()*220),
-              b: Math.floor(Math.random()*255)
+              g: Math.floor(50+Math.random()*135),
+              b: Math.floor(160+Math.random()*95)
             };
         c1.rgb = 'rgb('+c1.r+','+c1.g+','+c1.b+')';
         c2.rgb = 'rgb('+c2.r+','+c2.g+','+c2.b+')';
+        if (c1.rgb === c2.rgb){
+            newGradient();
+        };
         return 'radial-gradient(at top left, '+c1.rgb+', '+c2.rgb+')';
       }
       
@@ -140,17 +144,12 @@ $(document).ready(function(){
         <iframe width="560" height="670" src="https://www.youtube.com/embed/${videoLinkID}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
         <div  class = "row">
-            <div class="col-md-3">
-                <button class="btn btn-primary btn-lg" id="returnButton">Return</button>
-            </div>
-            <div class="col-md-2">
-            <button class="btn btn-primary btn-lg" id="nextButton">Next</button>
-            </div>
-            <div class="col-md-2">
-            <button class="btn btn-primary btn-lg" id="backButton">Back</button>
-            </div>
-            <div class="col-md-3">
-            <button class="btn btn-primary btn-lg" id="closeVideo">Close video</button>
+            <div class="col-12" align="center">
+                <a href="https://www.youtube.com/watch?v=${videoLinkID}" target="_blank"><button class="btn btn-primary btn" id="songSearchButton">Youtube</button></a>
+                <button class="btn btn-primary btn" id="returnButton">Return</button>
+                <button class="btn btn-primary btn" id="backButton">Back</button>
+                <button class="btn btn-primary btn" id="nextButton">Next</button>
+                <button class="btn btn-primary btn" id="closeVideo">Close video</button>
             </div>
         </div>
         `)
@@ -174,26 +173,48 @@ $(document).ready(function(){
               <h2>Published: ${videoPublishedDate}<h2>
             </div>
             <div class="row mt-auto">
-              <div class="col-md-3">
-                  <a href="https://www.youtube.com/watch?v=${videoLinkID}" target="_blank"><button class="btn btn-primary btn-lg" id="songSearchButton">Youtube</button></a>
-              </div>
-              <div class="col-md-2">
-                  <button class="btn btn-primary btn-lg" id="returnButton">Return</button>
-              </div>
-              <div class="col-md-2">
-                <button class="btn btn-primary btn-lg" id="nextButton">Next</button>
-              </div>
-              <div class="col-md-2">
-                <button class="btn btn-primary btn-lg" id="backButton">Back</button>
-              </div>
-              <div class="col-md-3">
-                <button class="btn btn-primary btn-lg" id="playVideo">Play video</button>
-              </div>
+                <div class="col-12" align="center">
+                    <a href="https://www.youtube.com/watch?v=${videoLinkID}" target="_blank"><button class="btn btn-primary btn" id="songSearchButton">Youtube</button></a>
+                    <button class="btn btn-primary btn" id="returnButton">Return</button>
+                    <button class="btn btn-primary btn" id="backButton">Back</button>
+                    <button class="btn btn-primary btn" id="nextButton">Next</button>
+                    <button class="btn btn-primary btn" id="playVideo">Play video</button>
+                </div>
           </div>
         </div>
         `)
     }
 
+    // <div class="col-md-3">
+    //     <button class="btn btn-primary btn-lg" id="returnButton">Return</button>
+    // </div>
+    // <div class="col-md-2">
+    //      <button class="btn btn-primary btn-lg" id="nextButton">Next</button>
+    // </div>
+    // <div class="col-md-2">
+    //      <button class="btn btn-primary btn-lg" id="backButton">Back</button>
+    // </div>
+    // <div class="col-md-3">
+    //      <button class="btn btn-primary btn-lg" id="closeVideo">Close video</button>
+    // </div>
+    //
+    //-------------------
+    //
+    // <div class="col-md-3">
+    //     <a href="https://www.youtube.com/watch?v=${videoLinkID}" target="_blank"><button class="btn btn-primary btn-lg" id="songSearchButton">Youtube</button></a>
+    // </div>
+    // <div class="col-md-2">
+    //     <button class="btn btn-primary btn-lg" id="returnButton">Return</button>
+    // </div>
+    // <div class="col-md-2">
+    //      <button class="btn btn-primary btn-lg" id="nextButton">Next</button>
+    // </div>
+    // <div class="col-md-2">
+    //      <button class="btn btn-primary btn-lg" id="backButton">Back</button>
+    // </div>
+    // <div class="col-md-3">
+    //      <button class="btn btn-primary btn-lg" id="playVideo">Play video</button>
+    // </div>
 
     // This function is to retrieve the json saved on the local storage 
     function getSongFromLS(searchResultNumber){
@@ -203,11 +224,6 @@ $(document).ready(function(){
         var videoChannel = data.items[searchResultNumber].snippet.channelTitle;
         let videoLinkID = data.items[searchResultNumber].id.videoId;
         var videoPublishedDate = data.items[searchResultNumber].snippet.publishedAt;
-        // var videoName = localStorage.getItem(`data.items${searchResultNumber}.snippet.title`);
-        // var videoThumbnail = localStorage.getItem(`data.items${searchResultNumber}.snippet.thumbnails.high.url`);
-        // var videoChannel = localStorage.getItem(`data.items${searchResultNumber}.snippet.channelTitle`);
-        // var videoLinkID = localStorage.getItem(`data.items${searchResultNumber}.id.videoId`);
-        // var videoPublishedDate = localStorage.getItem(`data.items${searchResultNumber}.snippet.publishedAt`);
         searchResultVid(videoName, videoThumbnail, videoChannel, videoLinkID, videoPublishedDate);
     }
 })

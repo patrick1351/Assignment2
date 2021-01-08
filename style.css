@@ -2,6 +2,10 @@ html, body{
     height: 100vh;
 }
 
+h1, h2{
+    color: #f5f5f5;
+}
+
 .space{
     margin: 20px 0px;
 }
@@ -23,4 +27,8 @@ html, body{
 
 #gradient-background{
     background-image: linear-gradient(to right, rgb(119, 194, 255) , rgb(255, 200, 48));
+}
+
+.btn-lg{
+    align-items: center;
 }
