@@ -22,13 +22,13 @@ As a user, I want to find the music I want without being bombarded with so many 
 
 ## Technologies Used
 
--[Jquerry](https://jquery.com/)
+- [Jquerry](https://jquery.com/)
     * The project uses JQuery to simplify DOM manipulation.
   
--[Bootstrap](https://getbootstrap.com/)
+- [Bootstrap](https://getbootstrap.com/)
     * This project uses bootstrap for the design and responsiveness
   
--[Youtube API](https://developers.google.com/youtube/v3)
+- [Youtube API](https://developers.google.com/youtube/v3)
     * This project uses the youtube api to search for music/videos
     
 ## Credits
