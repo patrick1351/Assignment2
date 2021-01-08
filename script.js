@@ -125,6 +125,9 @@ $(document).ready(function(){
             var videoChannel = data.items[searchResultNumber].snippet.channelTitle;
             let videoLinkID = data.items[searchResultNumber].id.videoId;
             var videoPublishedDate = data.items[searchResultNumber].snippet.publishedAt;
+            if (videoPublishedDate.length > 10) {
+                videoPublishedDate = videoPublishedDate.substring(0,10)
+            };
             searchResultVid(videoName, videoThumbnail, videoChannel, videoLinkID, videoPublishedDate);
         })
     }
@@ -224,6 +227,9 @@ $(document).ready(function(){
         var videoChannel = data.items[searchResultNumber].snippet.channelTitle;
         let videoLinkID = data.items[searchResultNumber].id.videoId;
         var videoPublishedDate = data.items[searchResultNumber].snippet.publishedAt;
+        if (videoPublishedDate.length > 10) {
+            videoPublishedDate = videoPublishedDate.substring(0,10)
+        };
         searchResultVid(videoName, videoThumbnail, videoChannel, videoLinkID, videoPublishedDate);
     }
 })
