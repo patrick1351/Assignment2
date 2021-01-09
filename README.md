@@ -32,3 +32,4 @@ As a user, I want to find the music I want without being bombarded with so many 
     * This project uses the youtube api to search for music/videos
     
 ## Credits
+- Thank you to Mr malcom and Ms dai for teaching us the necessary material to do this assignment and for givinng feedback as well as teaching how to go about doing certain parts of the code when I didn't understand it
