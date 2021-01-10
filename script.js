@@ -58,6 +58,7 @@ $(document).ready(function(){
     $(document).on("click", "#returnButton", function(e) {
         e.preventDefault();
         $("#searchResultDisplay").css("display", "none");
+        $("#videoPlayer").css("display", "none");
         $("#searchbar").css("display", "block");
     })
 
