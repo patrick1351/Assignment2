@@ -1,30 +1,34 @@
 $(document).ready(function(){
 
+    // Creates a new graident everytime
     function newGradient() {
-        //Math.random()*255
+        //Math.random()*255 <- Used to create a random number from 0 to 255
+
         var c1 = {
               r: Math.floor(255),
               g: Math.floor(50+Math.random()*135),
               b: Math.floor(1)
             };
-            var c2 = {
+        var c2 = {
               r: Math.floor(255),
               g: Math.floor(50+Math.random()*135),
               b: Math.floor(160+Math.random()*95)
             };
         c1.rgb = 'rgb('+c1.r+','+c1.g+','+c1.b+')';
         c2.rgb = 'rgb('+c2.r+','+c2.g+','+c2.b+')';
+        // To prevent cases where color are the exact same in term of value
         if (c1.rgb === c2.rgb){
             newGradient();
         };
         return 'radial-gradient(at top left, '+c1.rgb+', '+c2.rgb+')';
-      }
-      
+    }
+
+    //function to change background gradient
     function rollBg() {
         $('body').css('background', newGradient());
     }
     rollBg();
-   
+    
     var google_api_key = "AIzaSyBkatIeGCQxmAuC_YKY3aKy4Vd-ug5Z04E";
     var url = "https://www.googleapis.com/youtube/v3/search";
     var songName = "";
@@ -37,8 +41,9 @@ $(document).ready(function(){
         q: songName,
         videoCategoryId: 10,
         type: "video",
-    }
+    }  
 
+    // On click event to search the song base on search result
     $("#songSearchButton").on("click", function(e) {
         e.preventDefault();
         rollBg();
@@ -49,6 +54,7 @@ $(document).ready(function(){
         getSong(searchResultNumber, parameter);
     })
 
+    // Button to return to search bar
     $(document).on("click", "#returnButton", function(e) {
         e.preventDefault();
         $("#searchResultDisplay").css("display", "none");
@@ -88,10 +94,12 @@ $(document).ready(function(){
         getSongFromLS(searchResultNumber);
     })
 
+    // Button to play video in browser
     $(document).on("click", "#playVideo", function(e){
         playVideo(searchResultNumber)
     })
 
+    // Button to close opened video
     $(document).on("click", "#closeVideo", function(e){
         closeVideo()
     })
@@ -132,11 +140,13 @@ $(document).ready(function(){
         })
     }
 
+    // Closes video player and show the search result
     function closeVideo(){
         $("#searchResultDisplay").css("display", "block");
         $("#videoPlayer").css("display", "none");
     }
 
+    //Function to set video player into html div and embed video based on the videoID
     function playVideo(searchResultNumber){
         var data = JSON.parse(localStorage.getItem("youtubeJsonData"));
         let videoLinkID = data.items[searchResultNumber].id.videoId;
@@ -188,43 +198,12 @@ $(document).ready(function(){
         `)
     }
 
-    // <div class="col-md-3">
-    //     <button class="btn btn-primary btn-lg" id="returnButton">Return</button>
-    // </div>
-    // <div class="col-md-2">
-    //      <button class="btn btn-primary btn-lg" id="nextButton">Next</button>
-    // </div>
-    // <div class="col-md-2">
-    //      <button class="btn btn-primary btn-lg" id="backButton">Back</button>
-    // </div>
-    // <div class="col-md-3">
-    //      <button class="btn btn-primary btn-lg" id="closeVideo">Close video</button>
-    // </div>
-    //
-    //-------------------
-    //
-    // <div class="col-md-3">
-    //     <a href="https://www.youtube.com/watch?v=${videoLinkID}" target="_blank"><button class="btn btn-primary btn-lg" id="songSearchButton">Youtube</button></a>
-    // </div>
-    // <div class="col-md-2">
-    //     <button class="btn btn-primary btn-lg" id="returnButton">Return</button>
-    // </div>
-    // <div class="col-md-2">
-    //      <button class="btn btn-primary btn-lg" id="nextButton">Next</button>
-    // </div>
-    // <div class="col-md-2">
-    //      <button class="btn btn-primary btn-lg" id="backButton">Back</button>
-    // </div>
-    // <div class="col-md-3">
-    //      <button class="btn btn-primary btn-lg" id="playVideo">Play video</button>
-    // </div>
-
     // This function is to retrieve the json saved on the local storage 
     function getSongFromLS(searchResultNumber){
         var data = JSON.parse(localStorage.getItem("youtubeJsonData"));
         var videoName = data.items[searchResultNumber].snippet.title;
         var videoThumbnail = data.items[searchResultNumber].snippet.thumbnails.high.url;
-        var videoChannel = data.items[searchResultNumber].snippet.channelTitle;
+        var videoChannel = data.items[searchResultNumber].snippet.chnnelTitle;
         let videoLinkID = data.items[searchResultNumber].id.videoId;
         var videoPublishedDate = data.items[searchResultNumber].snippet.publishedAt;
         if (videoPublishedDate.length > 10) {

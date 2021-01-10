@@ -13,6 +13,7 @@
   </head>
   <body class="container-fluid d-flex flex-column">
     
+    <!-- Container for Search Bar -->
     <div class="container mt-auto mb-auto" id="searchbar">
         <div class="row">
             <div class="col">
@@ -30,26 +31,18 @@
                     <button type="submit" class="btn btn-primary btn-lg" id="songSearchButton">Search</button>
                     <button type="submit" class="btn btn-primary btn-lg" onclick="rollBg()">Color</button>
                 </div>
-
-                <!-- <div class="col"></div>
-                <div class="col-3 ">
-                    <button type="submit" class="btn btn-primary btn-lg" id="songSearchButton">Search</button>
-                </div> 
-                <div class="col-3">  
-                    <button type="submit" class="btn btn-primary btn-lg" onclick="rollBg()">Color</button>
-                </div>
-                <div class="col"></div> -->
             </div>
         </form>
     </div>
 
 
-
+    <!-- Container to use when changing from one search bar to search results -->
     <div class="container mt-auto mb-auto" style="display: none;" id="searchResultDisplay">
         <div class = "row" id="searchResult">
         </div>
     </div>
 
+    <!-- Container to use when changing from search result to video player -->
     <div class="container mt-auto mb-auto" style="display: none;" id="videoPlayer">
         
     </div>
